@@ -1,0 +1,20 @@
+{
+    "name": "fsa/oauth",
+    "description": "OAuth 2.0",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Sergei Fedotov",
+            "email": "fsa@tavda.info"
+        }
+    ],
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "FSA\\OAuth\\": "classes/"
+        }
+    },
+    "require": {
+        "php": "^8.1"
+    }
+}
