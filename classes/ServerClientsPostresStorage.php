@@ -2,7 +2,7 @@
 
 namespace FSA\OAuth;
 
-class ServerClientsPDOStorage
+class ServerClientsPostgresStorage
 {
     public function __construct(
         private $pdo
@@ -11,7 +11,7 @@ class ServerClientsPDOStorage
 
     public function get($client_id)
     {
-        $s = ($this->pdo)()->prepare('SELECT uuid, client_id, client_secret, array_to_json(redirect_uris) AS redirect_uris FROM oauth_clients WHERE client_id=?');
+        $s = ($this->pdo)()->prepare('SELECT id, secret, array_to_json(redirect_uris) AS redirect_uris FROM oauth_clients WHERE id=?');
         $s->execute([$client_id]);
         return $s->fetchObject();
     }

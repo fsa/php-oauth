@@ -1,7 +1,6 @@
 CREATE TABLE oauth_clients (
-    uuid uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    client_id varchar NOT NULL UNIQUE,
-    client_secret varchar,
+    id varchar NOT NULL UNIQUE,
+    secret varchar,
     redirect_uris varchar[],
     description varchar
 );

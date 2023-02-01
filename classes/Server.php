@@ -123,7 +123,7 @@ class Server
             throw new AppException(json_encode(['error' => 'invalid_grant', 'error_description' => 'code is invalid, expired, revoked']), 400);
         }
         $client = $this->clients_storage->get($client_id);
-        if (!$client or $client->client_id != $client_id or !password_verify($client_secret, $client->client_secret)) {
+        if (!$client or $client->id != $client_id or !password_verify($client_secret, $client->secret)) {
             throw new AppException(json_encode(['error' => 'invalid_client', 'error_description' => 'client_id is incorrect']), 400);
         }
         if ($redirect_uri !== false) {
@@ -167,7 +167,7 @@ class Server
         #$scope=filter_input(INPUT_POST, 'scope');
         # Только уменьшение scope
         $client = $this->clients_storage->get($client_id);
-        if (!$client or $client->client_id != $client_id or !password_verify($client_secret, $client->client_secret)) {
+        if (!$client or $client->id != $client_id or !password_verify($client_secret, $client->secret)) {
             throw new AppException(json_encode(['error' => 'invalid_client', 'error_description' => 'client_id is incorrect']), 400);
         }
         $old_refresh_token = filter_input(INPUT_POST, 'refresh_token');
