@@ -28,21 +28,21 @@ class OAuthServer
         $bearer = getenv('HTTP_AUTHORIZATION');
         if (!$bearer) {
             header("WWW-Authenticate: Bearer realm=\"$realm\"");
-            throw new AppException('Unauthorized', 401);
+            throw new HtmlException(401, 'Unauthorized');
         }
         $list = explode(' ', $bearer);
         if (sizeof($list) != 2) {
             header("WWW-Authenticate: Bearer realm=\"$realm\"");
-            throw new AppException('Unauthorized', 401);
+            throw new HtmlException(401, 'Unauthorized');
         }
         if (!strcasecmp($bearer, 'Bearer')) {
             header("WWW-Authenticate: Bearer realm=\"$realm\"");
-            throw new AppException('The access token required', 401);
+            throw new HtmlException(401, 'The access token required');
         }
         $token_info = $this->access_token_storage->get($list[1]);
         if (!$token_info) {
             header("WWW-Authenticate: Bearer realm=\"$realm\",error=\"invalid_token\",error_description=\"Invalid access token\"");
-            throw new AppException('Invalid access token', 401);
+            throw new HtmlException(401, 'Invalid access token');
         }
         if (is_null($scope)) {
             $this->client = $token_info;
@@ -55,7 +55,7 @@ class OAuthServer
             }
         }
         header("WWW-Authenticate: Bearer realm=\"$realm\",error=\"insufficient_scope\",error_description=\"The request requires higher privileges than provided by the access token.\"");
-        throw new AppException('The request requires higher privileges than provided by the access token.', 403);
+        throw new HtmlException(403, 'The request requires higher privileges than provided by the access token.');
     }
 
     public function getUserId()
@@ -104,7 +104,7 @@ class OAuthServer
      */
     public function requestTypeToken()
     {
-        throw new AppException('Запрос токена не реализован.', 405);
+        throw new HtmlException(405, 'Запрос токена не реализован.');
     }
 
     /**
@@ -118,19 +118,19 @@ class OAuthServer
         $client_secret = filter_input(INPUT_POST, 'client_secret');
         $code_info = $this->code_storage->get($code);
         if (!$code_info) {
-            throw new AppException(json_encode(['error' => 'invalid_grant', 'error_description' => 'code is invalid, expired, revoked']), 400);
+            throw new HtmlException(400, 'invalid_grant', 'code is invalid, expired, revoked');
         }
         $client = $this->clients_storage->get($client_id);
         if (!$client or $client->id != $client_id or !password_verify($client_secret, $client->secret)) {
-            throw new AppException(json_encode(['error' => 'invalid_client', 'error_description' => 'client_id is incorrect']), 400);
+            throw new HtmlException(400, 'invalid_client', 'client_id is incorrect');
         }
         if ($redirect_uri !== false) {
             if ($code_info->redirect_uri != $redirect_uri) {
-                throw new AppException(json_encode(['error' => 'invalid_grant', 'error_description' => 'redirect_uri is incorrect']), 400);
+                throw new HtmlException(400, 'invalid_grant', 'redirect_uri is incorrect');
             }
         } else {
             if (isset($code_info->redirect_uri)) {
-                throw new AppException(json_encode(['error' => 'invalid_grant', 'error_description' => 'redirect_uri is missing']), 400);
+                throw new HtmlException(400, 'invalid_grant', 'redirect_uri is missing');
             }
         }
         $access_token = $this->genAccessToken();
@@ -151,7 +151,7 @@ class OAuthServer
      */
     public function grantTypePassword()
     {
-        throw new AppException('POST запрос grant_type=password не реализован.', 405);
+        throw new HtmlException(405, 'POST запрос grant_type=password не реализован.');
     }
 
     /**
@@ -166,12 +166,12 @@ class OAuthServer
         # Только уменьшение scope
         $client = $this->clients_storage->get($client_id);
         if (!$client or $client->id != $client_id or !password_verify($client_secret, $client->secret)) {
-            throw new AppException(json_encode(['error' => 'invalid_client', 'error_description' => 'client_id is incorrect']), 400);
+            throw new HtmlException(400, 'invalid_client', 'client_id is incorrect');
         }
         $old_refresh_token = filter_input(INPUT_POST, 'refresh_token');
         $token_info = $this->refresh_token_storage->get($old_refresh_token);
         if (!$token_info) {
-            throw new AppException(json_encode(['error' => 'invalid_grant', 'error_description' => 'token is invalid, expired, revoked']), 400);
+            throw new HtmlException(400, 'invalid_grant', 'token is invalid, expired, revoked');
         }
         $access_token = $this->genAccessToken();
         $refresh_token = $this->genRefreshToken();
@@ -191,7 +191,7 @@ class OAuthServer
      */
     public function grantTypeClientCredentials()
     {
-        throw new AppException('Запрос ClientCredentials не реализован.', 405);
+        throw new HtmlException(405, 'Запрос ClientCredentials не реализован.');
     }
 
     private function genCode(): string

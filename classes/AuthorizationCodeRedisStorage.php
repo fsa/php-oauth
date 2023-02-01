@@ -2,8 +2,6 @@
 
 namespace FSA\OAuth;
 
-use Redis;
-
 class AuthorizationCodeRedisStorage extends AbstractRedis implements AuthorizationCodeStorageInterface
 {
 

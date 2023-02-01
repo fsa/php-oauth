@@ -2,8 +2,6 @@
 
 namespace FSA\OAuth;
 
-use Redis;
-
 class RefreshTokenRedisStorage extends AbstractRedis implements RefreshTokenStorageInterface
 {
 
