@@ -2,25 +2,17 @@
 
 namespace FSA\OAuth;
 
-use Redis;
-
-class AccessTokenRedisStorage implements AccessTokenStorageInterface
+class AccessTokenRedisStorage extends AbstractRedis implements AccessTokenStorageInterface
 {
-
-    public function __construct(
-        private Redis $redis,
-        private string $name
-    ) {
-    }
 
     public function set($token, $data, $expired_in): void
     {
-        $this->redis->setEx($this->name . ':OAuth:AccessToken:' . $token, $expired_in, json_encode($data));
+        $this->redis()->setEx($this->prefix . ':OAuth:AccessToken:' . $token, $expired_in, json_encode($data));
     }
 
     public function get($token): ?object
     {
-        $token_info = json_decode($this->redis->get($this->name . ':OAuth:AccessToken:' . $token));
+        $token_info = json_decode($this->redis()->get($this->prefix . ':OAuth:AccessToken:' . $token));
         return $token_info ? $token_info : null;
     }
 }

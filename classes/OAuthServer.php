@@ -6,9 +6,7 @@
 
 namespace FSA\OAuth;
 
-use APP;
-
-class Server
+class OAuthServer
 {
 
     const CODE_EXPIRED_IN = 3600;
