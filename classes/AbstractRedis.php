@@ -21,7 +21,7 @@ abstract class AbstractRedis
 
     protected function redis()
     {
-        if (is_null($this->redis)) {
+        if (!isset($this->redis)) {
             $this->redis = ($this->redis_callback)();
         }
         return $this->redis;

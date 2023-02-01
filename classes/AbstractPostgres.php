@@ -20,7 +20,7 @@ abstract class AbstractPostgres
 
     protected function pdo()
     {
-        if (is_null($this->pdo)) {
+        if (!isset($this->pdo)) {
             $this->pdo = ($this->pdo_callback)();
         }
         return $this->pdo;
