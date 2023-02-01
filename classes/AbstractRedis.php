@@ -7,7 +7,7 @@ use Redis;
 abstract class AbstractRedis
 {
     private Redis $redis;
-    private callable $redis_callback;
+    private $redis_callback;
 
     public function __construct(Redis|callable $redis, protected string $prefix)
     {

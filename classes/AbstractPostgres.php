@@ -7,7 +7,7 @@ use PDO;
 abstract class AbstractPostgres
 {
     private PDO $pdo;
-    private callable $pdo_callback;
+    private $pdo_callback;
 
     public function __construct(PDO|callable $pdo)
     {
