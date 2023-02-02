@@ -2,7 +2,7 @@
 
 namespace FSA\OAuth;
 
-interface RefreshTokenStorageInterface
+interface TokenStorageInterface
 {
 
     public function set(string $token, object|array $data, int $expired_in): void;

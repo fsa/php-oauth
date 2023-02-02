@@ -2,7 +2,7 @@
 
 namespace FSA\OAuth;
 
-class AccessTokenRedisStorage extends AbstractRedis implements AccessTokenStorageInterface
+class AccessTokenRedisStorage extends AbstractRedis implements TokenStorageInterface
 {
 
     public function set($token, $data, $expired_in): void

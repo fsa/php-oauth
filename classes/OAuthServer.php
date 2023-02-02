@@ -16,9 +16,9 @@ class OAuthServer
     private $client;
 
     public function __construct(
-        private AuthorizationCodeStorageInterface $code_storage,
-        private AccessTokenStorageInterface $access_token_storage,
-        private RefreshTokenStorageInterface $refresh_token_storage,
+        private TokenStorageInterface $code_storage,
+        private TokenStorageInterface $access_token_storage,
+        private TokenStorageInterface $refresh_token_storage,
         private ServerClientsStorageInterface $clients_storage
     ) {
     }

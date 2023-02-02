@@ -2,7 +2,7 @@
 
 namespace FSA\OAuth;
 
-class RefreshTokenPostgresStorage implements RefreshTokenStorageInterface
+class RefreshTokenPostgresStorage implements TokenStorageInterface
 {
 
     public function __construct(
